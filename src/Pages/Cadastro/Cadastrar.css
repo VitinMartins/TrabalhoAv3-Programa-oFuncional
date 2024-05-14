@@ -1,0 +1,43 @@
+.cadastro-content {
+    background-color: #202124;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itens-cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.itens-cadastro label {
+    margin-bottom: 10px;
+}
+
+.input-field {
+    background-color: white;
+    color: #202124;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    width: 200px; 
+    margin-bottom: 10px;
+}
+
+
+.cadastro-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.cadastro-button:hover {
+    background-color: #45a049; 
+}

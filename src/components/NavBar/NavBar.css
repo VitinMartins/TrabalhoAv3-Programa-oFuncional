@@ -1,0 +1,17 @@
+.navbar-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 35px;
+}
+
+.nav-link {
+    color: #ccc;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.nav-link:hover {
+    color:gray
+}
