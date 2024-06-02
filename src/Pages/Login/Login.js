@@ -1,26 +1,27 @@
 import { useState } from 'react';
 import './Login.css';
 import { useNavigate } from "react-router-dom";
+import UserService from '../../service/UserService';
 
-function Login({ setIsAuthenticated }) {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const navigate = useNavigate();
+    function Login({ setIsAuthenticated }) {
+        const [email, setEmail] = useState('');
+        const [senha, setSenha] = useState('');
+        const navigate = useNavigate();
 
-    function logarUsuario(e) {
-        e.preventDefault();
-        const usuarioSalvo = JSON.parse(localStorage.getItem('usuario'));
+        async function logarUsuario(e) {
+            e.preventDefault();
+            const userService = new UserService();
 
-        if (usuarioSalvo && usuarioSalvo.email === email && usuarioSalvo.senha === senha) {
-            alert('Login bem sucedido!');
-            setIsAuthenticated(true);
-            navigate('/');
-        } else {
-            alert('Credenciais inválidas. Tente novamente ou Usuario não cadastrado');
-            setEmail('');
-            setSenha('');
+            const result = await userService.getUser(email, senha)
+
+            if(result.status === 200) {
+                alert('Login bem sucedido!');
+                setIsAuthenticated(true);
+                navigate('/');
+            } else {
+                alert('Credenciais inválidas. Tente novamente ou Usuario não cadastrado');
+            }
         }
-    }
 
     return (
         <div className="login-content">

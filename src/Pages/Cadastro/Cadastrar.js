@@ -1,22 +1,25 @@
 import './Cadastrar.css';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import UserService from '../../service/UserService';
 
 function Cadastrar({ setIsAuthenticated }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    function cadastrarUsuario(e) {
-        e.preventDefault();
-        console.log(`Usuário ${name} foi cadastrado com sucesso utilizando a senha: ${senha} e foi utilizado o email: ${email}`);
-        localStorage.setItem('usuario', JSON.stringify({ name, email, senha }));
+    async function cadastrarUsuario(e) {
+        const userService = new UserService();
+        e.preventDefault()
+        const result = await userService.createUser(name, email, senha)
 
-        setName('');
-        setEmail('');
-        setSenha('');
-        navigate('/login');
+        if (result.status === 200) {
+            navigate('/login')
+        } else {
+            setError(result.message)
+        }
     }
 
     return (
@@ -45,6 +48,7 @@ function Cadastrar({ setIsAuthenticated }) {
                         onChange={(e) => setSenha(e.target.value)}
                     />
                     <button type="submit" className="cadastro-button">Cadastrar</button>
+                    {error && <p className="error-message">{error}</p>}
                 </div>
             </form>
         </div>
