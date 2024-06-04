@@ -34,6 +34,32 @@ class ActivityService {
         return { tasks: data.atividades, status: response.status };
       }
 
+      async getActivityOrderDate (user_id) {
+        const response = await fetch(LINK_API + '/' + user_id + '/atividades/data', {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        });
+    
+        const data = await response.json();
+
+        return { tasks: data.atividades, status: response.status };
+      }
+
+      async getActivityOrderPrioridade (user_id) {
+        const response = await fetch(LINK_API + '/' + user_id + '/atividades/prioridade', {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        });
+    
+        const data = await response.json();
+
+        return { tasks: data.atividades, status: response.status };
+      }
+
     async updateActivity (atv_id, atv) {
         console.log(atv)
         const response = await fetch(LINK_API + '/atividade/' + atv_id + '/update', {

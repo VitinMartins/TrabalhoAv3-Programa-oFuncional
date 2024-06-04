@@ -96,12 +96,24 @@ function Home() {
         ));
     };
 
-    const sortByDueDate = () => {
-        setTasks(tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)));
-      };
+    const sortByDueDate = async () => {
+      const activityService = new ActivityService();
+      const response = await activityService.getActivityOrderDate(idUsuario);
+      if (response.status === 200) {
+        setTasks(response.tasks);
+      } else {
+        console.error('Failed to fetch tasks:', response.message);
+      }
+    };
     
-    const sortByPriority = () => {
-        setTasks(tasks.sort((a, b) => a.priority - b.priority));
+    const sortByPriority = async () => {
+      const activityService = new ActivityService();
+      const response = await activityService.getActivityOrderPrioridade(idUsuario);
+      if (response.status === 200) {
+        setTasks(response.tasks);
+      } else {
+        console.error('Failed to fetch tasks:', response.message);
+      }
     };
 
       const formatDate = (dateString) => {
