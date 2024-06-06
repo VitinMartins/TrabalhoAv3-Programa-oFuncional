@@ -63,3 +63,17 @@
     background-color: #fff;
     color: #000;
 }
+
+li {
+   border: 1px solid #4b4d52 ; 
+   border-radius: 0.5rem;
+   padding: 0.7rem;
+}
+
+li p{
+    color: #fff
+}
+
+li input {
+    color: #fff  
+}
