@@ -15,18 +15,19 @@ function Home() {
         status: ''
     });    
 
+    const activityService = new ActivityService();
+
     const storedUserData = JSON.parse(localStorage.getItem('userData'));
     const idUsuario = storedUserData.id_usuario;
     const nomeUsuario = storedUserData.nome_usuario;  
 
     useEffect(() => {
         const fetchTasks = async () => {
-          const activityService = new ActivityService();
           const response = await activityService.getActivity(idUsuario);
+
           if (response.status === 200) {
             setTasks(response.tasks);
           } else {
-            // Handle error case
             console.error('Failed to fetch tasks:', response.message);
           }
         };
@@ -36,7 +37,6 @@ function Home() {
 
     const addTask = async (e) => {
         e.preventDefault();
-        const activityService = new ActivityService();
         if (task.nome.trim() === '') return;
         
         const result = await activityService.createActivity(idUsuario, task.nome);
@@ -58,20 +58,17 @@ function Home() {
     };
 
     const updateTask = async (index, status) => {
-        const activityService = new ActivityService();
         const updatedTask = tasks[index];
 
         const body = {
-            nome: updatedTask.nome, // Assuming properties in updatedTask match backend expectations
+            nome: updatedTask.nome,
             descricao: updatedTask.descricao,
             data_vencimento: updatedTask.data_vencimento,
             prioridade: updatedTask.prioridade,
             status: status
           };
         
-        const result = await activityService.updateActivity(updatedTask.id, body); // Pass id from updatedTask
-
-        console.log(body)
+        const result = await activityService.updateActivity(updatedTask.id, body);
 
         if (result === 200) {
             const response = await activityService.getActivity(idUsuario);
@@ -90,10 +87,9 @@ function Home() {
     };
 
     const removeTask = async (index) => {
-      const activityService = new ActivityService();
       const removedTask = tasks[index];
 
-      const result = await activityService.deleteActivity(removedTask.id); // Pass id from updatedTask
+      const result = await activityService.deleteActivity(removedTask.id); 
 
       if (result === 200) {
           const response = await activityService.getActivity(idUsuario);
@@ -111,7 +107,6 @@ function Home() {
     };
 
     const sortByDueDate = async () => {
-      const activityService = new ActivityService();
       const response = await activityService.getActivityOrderDate(idUsuario);
       if (response.status === 200) {
         setTasks(response.tasks);
@@ -121,7 +116,6 @@ function Home() {
     };
     
     const sortByPriority = async () => {
-      const activityService = new ActivityService();
       const response = await activityService.getActivityOrderPrioridade(idUsuario);
       if (response.status === 200) {
         setTasks(response.tasks);
@@ -181,7 +175,7 @@ function Home() {
         
             <ul>
                 {tasks.map((t, index) => (
-                <li class = "list" key={index} className={t.status} style={{ margin: '20px' }}>
+                <li key={index} className={t.status} style={{ margin: '20px' }}>
                     <input
                         type="checkbox"
                         checked={t.status}
