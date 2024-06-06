@@ -61,7 +61,6 @@ class ActivityService {
       }
 
     async updateActivity (atv_id, atv) {
-        console.log(atv)
         const response = await fetch(LINK_API + '/atividade/' + atv_id + '/update', {
             method: 'POST',
             body: JSON.stringify(atv),
@@ -69,10 +68,8 @@ class ActivityService {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         });
-
-        const data = await response.json();
-
-        return { message: data.message, status: response.status };
+        
+        return response.status;
     }
 
 }

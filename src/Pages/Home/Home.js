@@ -57,7 +57,7 @@ function Home() {
 
     };
 
-    const updateTask = async (index) => {
+    const updateTask = async (index, status) => {
         const activityService = new ActivityService();
         const updatedTask = tasks[index];
 
@@ -66,15 +66,19 @@ function Home() {
             descricao: updatedTask.descricao,
             data_vencimento: updatedTask.data_vencimento,
             prioridade: updatedTask.prioridade,
+            status: status
           };
         
         const result = await activityService.updateActivity(updatedTask.id, body); // Pass id from updatedTask
 
-        if (result.status === 200) {
-            setTasks(tasks.map((t, i) => (i === index ? updatedTask : t)));
-            alert(result.message);
+        console.log(body)
+
+        if (result === 200) {
+            const response = await activityService.getActivity(idUsuario);
+            setTasks(response.tasks);
+            alert("Sucesso");
         } else {
-            alert(result.message);
+            alert("Error");
         }
     };
 
@@ -170,10 +174,8 @@ function Home() {
                 <li class = "list" key={index} className={t.status} style={{ margin: '20px' }}>
                     <input
                         type="checkbox"
-                        checked={t.completed}
-                        onChange={() =>
-                        updateTask(index, t.text, t.completed ? 'em andamento' : 'concluida')
-                        }
+                        checked={t.status}
+                        onChange={() => updateTask(index, 1) }
                     />
                     <div className="task-item" onClick={() => toggleExpand(index)}>
                     <p>{t.nome}</p>
@@ -202,7 +204,7 @@ function Home() {
                             <option value="alta">Alta</option>
                         </select>
                         </p>
-                        <button onClick={() => updateTask(index)} style={{ margin: '10px' }}>Salvar Mudanças</button>
+                        <button onClick={() => updateTask(index, 0)} style={{ margin: '10px' }}>Salvar Mudanças</button>
                     </div>
                     )}
                     <button onClick={() => removeTask(index)}>Remover</button>
