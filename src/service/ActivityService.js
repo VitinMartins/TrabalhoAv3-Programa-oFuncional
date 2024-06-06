@@ -72,6 +72,17 @@ class ActivityService {
         return response.status;
     }
 
+    async deleteActivity (atv_id) {
+      const response = await fetch(LINK_API + '/atividade/' + atv_id, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+
+      return response.status;
+    }
+
 }
 
 export default ActivityService;

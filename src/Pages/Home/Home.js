@@ -89,9 +89,19 @@ function Home() {
         setTasks(newTasks);
     };
 
-    const removeTask = (index) => {
-        const newTasks = tasks.filter((_, i) => i !== index);
-        setTasks(newTasks);
+    const removeTask = async (index) => {
+      const activityService = new ActivityService();
+      const removedTask = tasks[index];
+
+      const result = await activityService.deleteActivity(removedTask.id); // Pass id from updatedTask
+
+      if (result === 200) {
+          const response = await activityService.getActivity(idUsuario);
+          setTasks(response.tasks);
+          alert("Sucesso");
+      } else {
+          alert("Error");
+      }
     };
 
     const toggleExpand = (index) => {
